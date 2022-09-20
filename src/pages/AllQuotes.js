@@ -6,7 +6,7 @@ const DUMMY_QUOTES = [
         text: 'now i am holding all the cards and n**gas wanna play chess now'
     },
     {
-        id: 'q1',
+        id: 'q2',
         author: 'charmi',
         text: 'ni**a had a problem till i showed up'
     }

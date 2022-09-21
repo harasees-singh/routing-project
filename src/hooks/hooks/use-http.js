@@ -49,7 +49,8 @@ function useHttp(requestFunction, startWithPending = false) {
             }
         },
         [requestFunction]
-    );
+    )
+    
 
     return {
         sendRequest,

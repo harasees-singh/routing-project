@@ -5,6 +5,7 @@ import NotFound from "./NotFound";
 import { getSingleQuote } from "../lib/lib/api";
 import useHttp from "../hooks/hooks/use-http";
 import { useEffect } from "react";
+import LoadingSpinner from '../components/UI/LoadingSpinner'
 
 const DUMMY_QUOTES = [
     {
@@ -23,16 +24,29 @@ const QuoteDetails = (props) => {
     const match = useRouteMatch();
 
     // const quote = DUMMY_QUOTES.find((someQuote) => someQuote.id === params.quoteid);
-    const { sendRequest, status, data, error } = useHttp(getSingleQuote)
-    
-    useEffect( () => {
-        sendRequest(params.quoteid);
-    }, [])
-    const quote = data
-    // console.log(status, data, error)
+    const { sendRequest, status, data, error } = useHttp(getSingleQuote, true)
 
-    if (!quote) {
-        return <NotFound />
+    const { quoteid } = params;
+
+    
+    useEffect(() => {
+        sendRequest(quoteid);
+    }, [sendRequest, quoteid])
+    const quote = data
+
+    if(status === 'pending'){
+        return <div className='centered'>
+            <LoadingSpinner />
+        </div>
+    }
+    if(error){
+        return <div className='centered'><h2>{error}</h2></div>
+    }
+
+    if (!quote.text) {
+        return <div className="centered">
+            <h2>No quote found</h2>
+        </div>
     }
     return <>
         <HighlightedQuote quote={quote} />

@@ -2,6 +2,9 @@ import { Link, Route, useParams, useRouteMatch } from "react-router-dom";
 import Comments from '../components/comments/Comments';
 import HighlightedQuote from '../components/quotes/HighlightedQuote'
 import NotFound from "./NotFound";
+import { getSingleQuote } from "../lib/lib/api";
+import useHttp from "../hooks/hooks/use-http";
+import { useEffect } from "react";
 
 const DUMMY_QUOTES = [
     {
@@ -19,7 +22,14 @@ const QuoteDetails = (props) => {
     const params = useParams();
     const match = useRouteMatch();
 
-    const quote = DUMMY_QUOTES.find((someQuote) => someQuote.id === params.quoteid);
+    // const quote = DUMMY_QUOTES.find((someQuote) => someQuote.id === params.quoteid);
+    const { sendRequest, status, data, error } = useHttp(getSingleQuote)
+    
+    useEffect( () => {
+        sendRequest(params.quoteid);
+    }, [])
+    const quote = data
+    // console.log(status, data, error)
 
     if (!quote) {
         return <NotFound />

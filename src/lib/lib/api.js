@@ -34,6 +34,7 @@ export async function getSingleQuote(quoteId) {
         id: quoteId,
         ...data,
     };
+    // console.log(loadedQuote) // ok
 
     return loadedQuote;
 }
